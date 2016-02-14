@@ -64,13 +64,20 @@ prompt.get({ properties: { password: { hidden: true } } },
       urlPrefix = "https://";
     }
 
-    // disabled Node integration by default as its more secure
-    // to not allow the application to access the environment
-    var nodeIntegration = false;
-    if (appConfig.nodeIntegration !== undefined) {
-      nodeIntegration = appConfig.nodeIntegration;
+    // setup the options for the window that will be created
+    var windowOptions = appConfig.options;
+    if (windowOptions === undefined) {
+      windowOptions = new Object();
     }
-    
+    if (windowOptions.webPreferences === undefined) {
+      windowOptions.webPreferences = new Object();
+    }
+    if (windowOptions.webPreferences.nodeIntegration === undefined) {
+      // disable Node integration by default as its more secure
+      // to not allow the application to access the environment
+      windowOptions.webPreferences.nodeIntegration = false;
+    } 
+ 
     var extraHeadersString = '';
     var extraHeadersObject;
     if (appConfig.auth !== undefined) {
@@ -94,18 +101,18 @@ prompt.get({ properties: { password: { hidden: true } } },
 
       res.on('end', () => {
         var sizes = JSON.parse(sizeData);
-        var mainWindow = new BrowserWindow({ width: sizes.width,
-                                             height: sizes.height + platformHeightAdjust,
-                                             webPreferendces: { nodeIntegration: nodeIntegration } });
+        windowOptions.width = sizes.width;
+        windowOptions.height = sizes.height + platformHeightAdjust;
+        var mainWindow = new BrowserWindow(windowOptions);
         windows[mainWindow] = mainWindow;
+
+        // work around what looks like a bug in respecting the config
+        if (windowOptions.resizable !== undefined) {
+           mainWindow.setResizable(windowOptions.resizable); 
+        }
 
         // we want minimal window without the menus
         mainWindow.setMenu(null);
-
-        // set the position of the window if configured
-        if (appConfig.position !== undefined) {
-          mainWindow.setPosition(appConfig.position.x, appConfig.position.y);
-        }
 
         // ok all set up open the window now
         mainWindow.loadURL(urlPrefix + appConfig.hostname + ':' + appConfig.port + '?windowopen=y', 
