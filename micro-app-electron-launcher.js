@@ -56,11 +56,6 @@ prompt.get({ properties: { password: { hidden: true } } },
 
   //function createWindow (urlPrefix, hostname, port, auth) {
   function createWindow (appConfig) {
-    // create window and stash reference to keep it alive until
-    // the window is closed
-    var mainWindow;
-    windows[mainWindow] = mainWindow;
-
     // setup based on configured options
     var httpHandler = http;
     var urlPrefix = "http://";
@@ -99,12 +94,18 @@ prompt.get({ properties: { password: { hidden: true } } },
 
       res.on('end', () => {
         var sizes = JSON.parse(sizeData);
-        mainWindow = new BrowserWindow({ width: sizes.width,
-                                         height: sizes.height + platformHeightAdjust,
-                                         webPreferendces: { nodeIntegration: nodeIntegration } });
+        var mainWindow = new BrowserWindow({ width: sizes.width,
+                                             height: sizes.height + platformHeightAdjust,
+                                             webPreferendces: { nodeIntegration: nodeIntegration } });
+        windows[mainWindow] = mainWindow;
 
         // we want minimal window without the menus
         mainWindow.setMenu(null);
+
+        // set the position of the window if configured
+        if (appConfig.position !== undefined) {
+          mainWindow.setPosition(appConfig.position.x, appConfig.position.y);
+        }
 
         // ok all set up open the window now
         mainWindow.loadURL(urlPrefix + appConfig.hostname + ':' + appConfig.port + '?windowopen=y', 
