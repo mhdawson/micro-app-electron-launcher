@@ -1,0 +1,38 @@
+{
+  "name": "micro-app-electron-launcher",
+  "version": "0.9.0",
+  "description": "Launcher for micro-apps using electron",
+  "main": "electron micro-app-electron-launcher.js",
+  "scripts": {
+    "start": "electron micro-app-electron-launcher.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mhdawson/micro-app-electron-launcher"
+  },
+  "keywords": [
+    "micro-app",
+    "Electron",
+    "IOT"
+  ],
+  "author": {
+    "name": "Michael Dawson"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mhdawson/micro-app-electron-launcher/issues"
+  },
+  "homepage": "https://github.com/mhdawson/micro-app-electron-launcher#readme",
+  "contributors": [
+    {
+      "name": "Michael Dawson",
+      "email": "mdawson@devrus.com"
+    }
+  ]
+  "devDependencies": {
+    "electron-prebuilt": "~0.36.0",
+    "crypto-js": "~3.1.5",
+    "prompt": "~1.0.0",
+  }
+}

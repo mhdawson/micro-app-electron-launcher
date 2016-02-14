@@ -1,0 +1,12 @@
+{ "apps": [
+    { "name": "home dashboard",
+      "hostname": "10.x.x.x",
+      "port": "8081" },
+    { "name": "totp",
+      "tls": true,
+      "hostname": "10.x.x.1,",
+      "port": "8090",
+      "auth": "your encrypted secret"
+    }
+  ]
+}
