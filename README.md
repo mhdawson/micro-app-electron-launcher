@@ -16,15 +16,15 @@ This is an example of the visual difference:
 
 
 Of course you can access the same micro app using either the
-electron launch method or a browers so you can have a native
-look at fell on some machines and still be able to remotely
+electron launch method or a brower so you can have a native
+look and feel on some machines and still be able to remotely
 access the app from other machines with only the browser
 installed.
 
 
 # Installation
 
-You will need Node.js 4.X or higher installed on on the path
+You will need Node.js 4.X or higher installed on on the path.
 
 The easiest way is to install is using:
 
@@ -32,7 +32,7 @@ The easiest way is to install is using:
 npm install micro-app-electron-launcher
 </PRE>
 
-Alternatively you can clone this repo and then run npm install
+Alternatively you can clone this repo and then run npm install.
 
 # Configuration
 
@@ -72,7 +72,7 @@ For example this is my config :
 The values you can configure for each micro-app are as follows:
 
 * name - any name you want to assign to the entry
-* hostname - hostname where the microapp is running
+* hostname - hostname where the micro-app is running
 * port - port on which micro-app is listening
 * tls - true if the micro-app requires tls for connections,
         false othewise
@@ -82,22 +82,41 @@ The values you can configure for each micro-app are as follows:
             resized or not.
 * auth - if the micro-app requires authentication then you
          must provide the password for the micro-app
-         encrypted using the enc_config_value.js utility
+         encrypted using the enc_config_value.js utility.
+         (provided as part of this project).
          When you start the launcher you will be prompted
          for the password used to generate the key for the
          encryption. 
+
+The script lib/enc_config_value.js can be used to encrypt a configuration value
+as follows:
+
+<PRE>
+node lib/enc_config_value.js value mypassword
+</PRE>
+
+The value provided for 'value' should be the username and password required
+by the micro-app separated by a ':' character.  For example:
+
+<PRE>
+node lib/enc_config_value.js "user1:pass1" mypassword
+</PRE>
+
 
 # Running
 
 To run use:
 
 <PRE>
-  npm run
+  npm start
 </PRE>
 
 You will be prompted for a password that must match
 the one used to encrypt any of the "auth" values in 
 config.json
 
+# Notes
 
-
+It seems the prompt module does not work on windows.  I've hacked my install
+to prompt for the password in a different way and should check in something
+better soon.  
